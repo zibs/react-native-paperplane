@@ -1,0 +1,27 @@
+{
+  "name": "paperplane",
+  "version": "0.1.0",
+  "description": "Tiny CLI to bump iOS build numbers, archive/export, and upload to TestFlight.",
+  "bin": {
+    "paperplane": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "image.png",
+    "example.gif"
+  ],
+  "keywords": [
+    "testflight",
+    "ios",
+    "xcodebuild",
+    "react-native",
+    "expo",
+    "cli"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
