@@ -1,7 +1,7 @@
-# TestFlight Release CLI — v1 Plan (Bun)
+# TestFlight Release CLI — v1 Plan (Node/Bun)
 
 ## Purpose
-Create a small, Bun-based CLI package that bumps the iOS build number, builds an Xcode archive, exports an IPA, and uploads it to TestFlight. The v1 scope is intentionally narrow and maps to the existing `scripts/release-testflight.ts` behavior.
+Create a small, Node/Bun-based CLI package that bumps the iOS build number, builds an Xcode archive, exports an IPA, and uploads it to TestFlight. The v1 scope is intentionally narrow and maps to the existing `scripts/release-testflight.ts` behavior.
 
 This plan is detailed to enable an external agent to implement the package in a new repo without prior context.
 
@@ -19,7 +19,7 @@ This plan is detailed to enable an external agent to implement the package in a 
 - CI integration beyond basic non-interactive operation.
 
 ## Requirements / Assumptions
-- Bun is installed and used to run the CLI.
+- Node 18+ or Bun is installed to run the CLI.
 - Xcode command line tools are installed.
 - Transporter app is installed, and the user is signed in (required for `iTMSTransporter`).
 - Repo includes an `ios/` directory with an Xcode workspace.
@@ -28,7 +28,7 @@ This plan is detailed to enable an external agent to implement the package in a 
 
 ## CLI Overview (name TBD)
 ```
-<cli-name> [options]
+paperplane [options]
 ```
 
 ### Options
@@ -167,7 +167,7 @@ xcrun iTMSTransporter \
 - Always output the IPA path on success.
 
 ## Packaging Plan
-- Bun-based package with a single `bin` entry.
+- Node/Bun package with a single `bin` entry.
 - Prefer minimal dependencies (built-ins only).
 - README + LICENSE + small example.
 
