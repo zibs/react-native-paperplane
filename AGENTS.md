@@ -2,6 +2,11 @@
 
 ## Project Structure & Module Organization
 - `testflight-release-package-plan.md` contains the v1 implementation plan for a Bun-based TestFlight release CLI.
+- v1 auth is Apple ID + app-specific password only; no App Store Connect API key flow.
+- Build number parsing is text-only; do not execute `app.config.ts` or `app.config.js`.
+- Supported config files, first match wins: `app.config.ts`, `app.config.js`, `app.json`.
+- Output convention: `ios/build/testflight/<runId>/` with archive + export output.
+- Non-goals: Android support, ASC API key auth, CI polish.
 - No source code, tests, or assets are present yet; this repo currently serves as a design/requirements document.
 - If you add code, prefer a simple layout such as `src/` for implementation, `tests/` for test files, and `docs/` for additional design notes.
 
@@ -26,3 +31,5 @@
 ## Configuration & Environment Notes
 - The plan assumes Bun, Xcode command line tools, and Apple’s Transporter app are installed.
 - Expected repo inputs include `ios/` with an Xcode workspace and one of `app.config.ts`, `app.config.js`, or `app.json`.
+- Env vars (upload): `ASC_APPLE_ID`, `ASC_APP_PASSWORD`, optional `ASC_ITC_PROVIDER`.
+- iOS overrides: `IOS_APP_NAME`, `IOS_SCHEME`, `IOS_WORKSPACE`.
