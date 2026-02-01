@@ -1,27 +1,35 @@
 <h1>
-  <img src="image.png" alt="paperplane logo" width="150" height="150" /> paperplane
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="pp-readme-dark.png" />
+    <img src="pp-readme.png" alt="paperplane logo" width="150" height="150" />
+  </picture> paperplane
 </h1>
 
 Tiny CLI to bump iOS build numbers, build/export with Xcode, and upload to TestFlight.
 
 ```text
-                               __
-                         _.-'`  `'-._
-                    _.-'  _..----.._ `-._
-                 .-'   .-'  .--.    `-. `-.
-               .'    .'    /  /\      `.  `.
-              /     /     /  /  \       \   \
-             /     /     /__/____\_______\   \
-            /     /        /  __ \        \   \
-           /     /        /  /  \ \        \   \
-          /     /________/__/    \_\________\   \
-          \     \        \  \    / /        /   /
-           \     \        \  \  / /        /   /
-            \     \________\  \/ /________/   /
-             \                \__/           /
-              `-._                           _.-'
-                   `--..________________..--'
-                       paperplane
+                          __
+                     _.-'  `-._
+                 _.-'  _.._    `-._
+              .-'    .'    `.     `-.
+            .'      /  /\    \        `.
+           /       /  /  \    \         \
+          /       /__/____\____\         \
+         /          /  __  \              \
+        /          /  /  \  \              \
+       /__________/__/____\__\______________\====>
+       \          \  \    /  /             /
+        \          \  \  /  /             /
+         \          \  \/  /             /
+          \          \____/             /
+           `-._                      _.-'
+                `--..__________..--'
+
+PPPP  AAA  PPPP  EEEE  RRRR  PPPP  L     AAA  N   N  EEEE
+P   P A  A P   P E     R   R P   P L    A  A NN  N E
+PPPP  AAAA PPPP  EEEE  RRRR  PPPP  L    AAAA N N N EEEE
+P     A  A P     E     R R   P     L    A  A N  NN E
+P     A  A P     EEEE  R  RR P     LLLL A  A N   N EEEE
 ```
 
 License: MIT
