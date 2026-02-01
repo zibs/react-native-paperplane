@@ -32,6 +32,14 @@ Tiny CLI to bump iOS build numbers, build/export with Xcode, and upload to TestF
                                            @@+.:-=-@@      @%..=...@%
                                             @@.-@@           @@..@@
                                             #:@           *     @%
+
+                    PPPPPP     AAA    PPPPPP   EEEEEEE  RRRRRR   PPPPPP   L          AAA    N    N   EEEEEEE
+                    P     P   A   A   P     P  E        R    R   P     P  L         A   A   NN   N   E      
+                    P     P  A     A  P     P  E        R    R   P     P  L        A     A  N N  N   E      
+                    PPPPPP   A     A  PPPPPP   EEEEEE   RRRRRR   PPPPPP   L        A     A  N  N N   EEEEEE 
+                    P        AAAAAAA  P        E        R  R     P        L        AAAAAAA  N   NN   E      
+                    P        A     A  P        E        R   R    P        L        A     A  N    N   E      
+                    P        A     A  P        EEEEEEE  R    R   P        LLLLLLL  A     A  N    N   EEEEEEE
 ```
 
 License: MIT
