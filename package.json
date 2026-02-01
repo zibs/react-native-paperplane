@@ -13,8 +13,7 @@
     "src",
     "README.md",
     "LICENSE",
-    "image.png",
-    "example.gif"
+    "image.png"
   ],
   "keywords": [
     "testflight",

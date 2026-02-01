@@ -26,6 +26,7 @@ main().catch((error) => {
 
 async function main() {
   const rootDir = process.cwd();
+  printBanner();
   loadDotEnv(resolve(rootDir, ".env"));
 
   const iosDir = resolve(rootDir, "ios");
@@ -94,6 +95,7 @@ async function main() {
     console.log(
       "- No files were written, no commit made, no build/export/upload executed.",
     );
+    printSuccess({ dryRun: true });
     process.exit(0);
   }
 
@@ -150,6 +152,7 @@ async function main() {
   const ipaPath = findIpa(exportPath);
   if (options.skipUpload) {
     console.log(`Build/export complete. IPA ready at: ${ipaPath}`);
+    printSuccess({ ipaPath });
     process.exit(0);
   }
 
@@ -159,6 +162,7 @@ async function main() {
   await runOrThrowAsync(rootDir, "xcrun", uploadArgs);
 
   console.log(`Upload complete. IPA: ${ipaPath}`);
+  printSuccess({ ipaPath });
 }
 
 function parseArgs(args) {
@@ -247,6 +251,29 @@ Environment:
   ASC_APP_PASSWORD     App-specific password (required for upload)
   ASC_ITC_PROVIDER     iTMSTransporter provider short name (optional)
 `);
+}
+
+function printBanner() {
+  const banner = [
+    "     __|__",
+    "--o--o--o--o--",
+    "  paperplane",
+  ];
+  console.log(banner.join("\n"));
+  console.log("");
+}
+
+function printSuccess({ dryRun = false, ipaPath } = {}) {
+  console.log("");
+  if (dryRun) {
+    console.log("paperplane: dry run complete.");
+    return;
+  }
+  if (ipaPath) {
+    console.log(`paperplane: done -> ${ipaPath}`);
+    return;
+  }
+  console.log("paperplane: done.");
 }
 
 function loadDotEnv(path) {
