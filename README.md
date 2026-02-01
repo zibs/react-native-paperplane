@@ -45,6 +45,22 @@ bunx paperplane --dry-run
 bunx paperplane
 ```
 
+## Local development
+
+```bash
+# run locally without publishing
+bun src/cli.js --help
+# or
+node src/cli.js --help
+```
+
+Optional global-style bin for development:
+
+```bash
+npm link
+paperplane --help
+```
+
 ## Usage
 
 ```bash

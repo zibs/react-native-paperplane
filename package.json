@@ -5,6 +5,10 @@
   "bin": {
     "paperplane": "src/cli.js"
   },
+  "scripts": {
+    "dev": "node src/cli.js --help",
+    "dev:bun": "bun src/cli.js --help"
+  },
   "files": [
     "src",
     "README.md",
