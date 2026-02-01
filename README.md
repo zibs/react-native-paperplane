@@ -5,7 +5,7 @@
   </picture>
 </p>
 
-<h1 align="center">React Native paper plane</h1>
+<h1 align="center">React Native Paperplane</h1>
 
 Tiny CLI to bump iOS build numbers, build/export with Xcode, and upload to TestFlight.
 
