@@ -5,9 +5,14 @@
 Tiny CLI to bump iOS build numbers, build/export with Xcode, and upload to TestFlight.
 
 ```text
-     __|__
---o--o--o--o--
-  paperplane
+         /\
+        /  \
+   ____/____\____
+  /   /      \   \
+ /___/  o  o  \___\
+     \   __   /
+      \______/ 
+     paperplane
 ```
 
 License: MIT

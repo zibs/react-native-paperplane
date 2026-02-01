@@ -256,9 +256,14 @@ Environment:
 
 function printBanner() {
   const banner = [
-    "     __|__",
-    "--o--o--o--o--",
-    "  paperplane",
+    "         /\\",
+    "        /  \\",
+    "   ____/____\\____",
+    "  /   /      \\   \\",
+    " /___/  o  o  \\___\\",
+    "     \\   __   /",
+    "      \\______/ ",
+    "     paperplane",
   ];
   console.log(banner.join("\n"));
   console.log("");
