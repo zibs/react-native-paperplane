@@ -1,9 +1,11 @@
-<h1>
+<p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="pp-social-dark.png" />
-    <img src="pp-social.png" alt="paperplane logo" width="150" height="100" />
-  </picture> paperplane
-</h1>
+    <img src="pp-social.png" alt="React Native paper plane" width="900" />
+  </picture>
+</p>
+
+<h1 align="center">React Native paper plane</h1>
 
 Tiny CLI to bump iOS build numbers, build/export with Xcode, and upload to TestFlight.
 
