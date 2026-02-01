@@ -7,6 +7,10 @@
 
 <h1 align="center">React Native Paperplane</h1>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/react-native-paperplane"><img src="https://img.shields.io/npm/v/react-native-paperplane.svg" alt="npm version" /></a>
+</p>
+
 Tiny CLI to bump iOS build numbers, build/export with Xcode, and upload to TestFlight.
 
 License: MIT
