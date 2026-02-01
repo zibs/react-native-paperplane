@@ -1,5 +1,5 @@
 {
-  "name": "paperplane",
+  "name": "react-native-paperplane",
   "version": "1.0.0",
   "description": "Tiny CLI to bump iOS build numbers, archive/export, and upload to TestFlight.",
   "bin": {

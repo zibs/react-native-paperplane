@@ -29,23 +29,23 @@ License: MIT
 ## Install
 
 ```bash
-npm install -D paperplane
+npm install -D react-native-paperplane
 # or
-bun add -d paperplane
+bun add -d react-native-paperplane
 ```
 
 ## Quick start
 
 ```bash
-npx paperplane --dry-run
-npx paperplane
+npx react-native-paperplane --dry-run
+npx react-native-paperplane
 ```
 
 Bun alternative:
 
 ```bash
-bunx paperplane --dry-run
-bunx paperplane
+bunx react-native-paperplane --dry-run
+bunx react-native-paperplane
 ```
 
 ## Local development
@@ -133,7 +133,7 @@ Install Transporter from the Mac App Store and sign in once.
 
 ## Publishing checklist
 
-- Confirm the package name is available on npm.
+- Confirm the package name is available on npm: `npm view react-native-paperplane`.
 - Update `package.json` version.
 - Run a quick help check: `node src/cli.js --help`.
 - Dry pack: `npm pack` and sanity-check the tarball contents.
