@@ -15,6 +15,7 @@ const { spawn, spawnSync } = require("child_process");
 const options = parseArgs(process.argv.slice(2));
 
 if (options.help) {
+  printBanner();
   printHelp();
   process.exit(0);
 }
