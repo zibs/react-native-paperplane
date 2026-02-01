@@ -127,3 +127,14 @@ Bun is fast and works great for CLI workflows. This package also runs on Node 18
 
 **Transporter errors?**
 Install Transporter from the Mac App Store and sign in once.
+
+## Publishing checklist
+
+- Confirm the package name is available on npm.
+- Update `package.json` version.
+- Run a quick help check: `node src/cli.js --help`.
+- Dry pack: `npm pack` and sanity-check the tarball contents.
+- Publish: `npm publish --access public`.
+
+Notes:
+- `--access public` is only required for scoped packages, but harmless for unscoped.
