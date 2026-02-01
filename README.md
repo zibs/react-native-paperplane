@@ -1,7 +1,7 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="pp-readme-dark.png" />
-    <img src="pp-readme.png" alt="paperplane logo" width="150" height="150" />
+    <source media="(prefers-color-scheme: dark)" srcset="pp-social-dark.png" />
+    <img src="pp-social.png" alt="paperplane logo" width="150" height="100" />
   </picture> paperplane
 </h1>
 
