@@ -17,8 +17,12 @@
   ],
   "keywords": [
     "testflight",
+    "testflight-upload",
     "ios",
+    "xcode",
     "xcodebuild",
+    "app-store",
+    "app-store-connect",
     "react-native",
     "expo",
     "cli"
