@@ -13,6 +13,9 @@
 ## Build, Test, and Development Commands
 - Local dev (Node): `npm run dev` or `node src/cli.js --help`.
 - Local dev (Bun): `npm run dev:bun` or `bun src/cli.js --help`.
+- Local usage (npm): `npx react-native-paperplane --dry-run` or `npx react-native-paperplane`.
+- Local usage (Bun): `bunx react-native-paperplane --dry-run` or `bunx react-native-paperplane`.
+- Optional dev bin: `npm link` then `paperplane --help`.
 - No automated tests are defined yet.
 
 ## Coding Style & Naming Conventions
@@ -27,6 +30,13 @@
 ## Commit & Pull Request Guidelines
 - Use a simple conventional commit format such as `chore(release): bump iOS build to <N>` or `feat: add build number extraction`.
 - For pull requests, include a short summary, link related issues, and list any manual validation steps (e.g., “ran `xcodebuild` archive”).
+
+## Publishing Checklist
+- Confirm package name: `npm view react-native-paperplane`.
+- Update `package.json` version.
+- Sanity-check CLI: `node src/cli.js --help`.
+- Dry pack: `npm pack` and review contents.
+- Publish: `npm publish --access public`.
 
 ## Configuration & Environment Notes
 - The plan assumes Bun, Xcode command line tools, and Apple’s Transporter app are installed.
