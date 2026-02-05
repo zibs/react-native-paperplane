@@ -16,6 +16,8 @@
 - Local usage (npm): `npx react-native-paperplane --dry-run` or `npx react-native-paperplane`.
 - Local usage (Bun): `bunx react-native-paperplane --dry-run` or `bunx react-native-paperplane`.
 - Optional dev bin: `npm link` then `paperplane --help`.
+- Example runs: `paperplane --dry-run`, `paperplane --build-number 42`, `paperplane --skip-upload`, `paperplane --allow-dirty`.
+
 - No automated tests are defined yet.
 
 ## Coding Style & Naming Conventions
