@@ -1,6 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
+
 - `testflight-release-package-plan.md` contains the v1 implementation plan for a Node/Bun TestFlight release CLI.
 - v1 auth is Apple ID + app-specific password only; no App Store Connect API key flow.
 - Build number parsing is text-only; do not execute `app.config.ts` or `app.config.js`.
@@ -11,6 +12,7 @@
 - Prefer a simple layout such as `src/` for implementation, `tests/` for test files, and `docs/` for additional design notes.
 
 ## Build, Test, and Development Commands
+
 - Local dev (Node): `npm run dev` or `node src/cli.js --help`.
 - Local dev (Bun): `npm run dev:bun` or `bun src/cli.js --help`.
 - Local usage (npm): `npx react-native-paperplane --dry-run` or `npx react-native-paperplane`.
@@ -18,22 +20,27 @@
 - Optional dev bin: `npm link` then `paperplane --help`.
 - Example runs: `paperplane --dry-run`, `paperplane --build-number 42`, `paperplane --skip-upload`, `paperplane --allow-dirty`.
 
-- No automated tests are defined yet.
+- Offline regression tests: `npm test` (Node's built-in test runner).
+- Tests use fake Git/Xcode/Transporter commands; never substitute real upload credentials.
 
 ## Coding Style & Naming Conventions
+
 - No style or lint tooling is configured yet.
 - When code is added, keep the CLI entrypoint explicit (for example `src/cli.ts`) and use clear, action-based function names (for example `resolveWorkspace`, `bumpBuildNumber`).
 - Match the plan’s terminology (e.g., `buildNumber`, `Info.plist`, `IOS_WORKSPACE`) to avoid drift.
 
 ## Testing Guidelines
-- No tests are defined yet.
+
+- Run `npm test` after CLI behavior changes.
 - If tests are added, name them to match the behavior (for example `build-number.test.ts`) and keep fixtures in a small `tests/fixtures/` directory.
 
 ## Commit & Pull Request Guidelines
+
 - Use a simple conventional commit format such as `chore(release): bump iOS build to <N>` or `feat: add build number extraction`.
 - For pull requests, include a short summary, link related issues, and list any manual validation steps (e.g., “ran `xcodebuild` archive”).
 
 ## Publishing Checklist
+
 - Confirm package name: `npm view react-native-paperplane`.
 - Update `package.json` version.
 - Sanity-check CLI: `node src/cli.js --help`.
@@ -41,6 +48,7 @@
 - Publish: `npm publish --access public`.
 
 ## Configuration & Environment Notes
+
 - The plan assumes Bun, Xcode command line tools, and Apple’s Transporter app are installed.
 - Expected repo inputs include `ios/` with an Xcode workspace and one of `app.config.ts`, `app.config.js`, or `app.json`.
 - Env vars (upload): `ASC_APPLE_ID`, `ASC_APP_PASSWORD`, optional `ASC_ITC_PROVIDER`.

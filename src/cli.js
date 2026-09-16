@@ -100,6 +100,10 @@ async function main() {
     process.exit(0);
   }
 
+  // Fail before consuming a build number or making a release commit. Dry runs
+  // intentionally remain usable without Xcode or upload credentials.
+  ensureReleasePrerequisites(rootDir, options);
+
   writeFileSync(config.path, updatedConfigText);
   writeFileSync(infoPlistPath, updatedInfoPlistText);
 
@@ -157,7 +161,6 @@ async function main() {
     process.exit(0);
   }
 
-  ensureTransporterAvailable(rootDir);
   const uploadArgs = buildUploadArgs(ipaPath);
 
   await runOrThrowAsync(rootDir, "xcrun", uploadArgs);
@@ -514,7 +517,8 @@ function updateBuildNumberInAppConfig(text, nextBuildNumber) {
 
 function updateBuildNumberInAppJson(text, nextBuildNumber, source) {
   if (source === "appJson:expo.ios") {
-    const iosRegex = /("expo"\s*:\s*{[\s\S]*?"ios"\s*:\s*{[\s\S]*?"buildNumber"\s*:\s*")(\d+)(")/;
+    const iosRegex =
+      /("expo"\s*:\s*{[\s\S]*?"ios"\s*:\s*{[\s\S]*?"buildNumber"\s*:\s*")(\d+)(")/;
     if (!iosRegex.test(text)) {
       die("Failed to update expo.ios.buildNumber in app.json.");
     }
@@ -555,10 +559,6 @@ function buildExportOptionsPlist() {
     <string>app-store-connect</string>
     <key>signingStyle</key>
     <string>automatic</string>
-    <key>uploadBitcode</key>
-    <false/>
-    <key>compileBitcode</key>
-    <false/>
   </dict>
 </plist>
 `;
@@ -593,6 +593,27 @@ function ensureTransporterAvailable(rootDir) {
     die(
       "iTMSTransporter not found. Install the Transporter app from the Mac App Store, then try again.",
     );
+  }
+}
+
+function ensureReleasePrerequisites(rootDir, options) {
+  runOrThrow(rootDir, "xcodebuild", ["-version"]);
+  runOrThrow(rootDir, "xcrun", ["--sdk", "iphoneos", "--show-sdk-path"]);
+
+  // Git can have a clean tree but no usable commit identity. Check both roles
+  // without printing their values, before either config file is written.
+  for (const identity of ["GIT_AUTHOR_IDENT", "GIT_COMMITTER_IDENT"]) {
+    if (runCapture(rootDir, "git", ["var", identity]).status !== 0) {
+      die(
+        `Git ${identity} is unavailable. Configure your release commit identity.`,
+      );
+    }
+  }
+
+  if (!options.skipUpload) {
+    // Constructing arguments validates credentials locally; no upload occurs.
+    buildUploadArgs("");
+    ensureTransporterAvailable(rootDir);
   }
 }
 
@@ -639,12 +660,17 @@ function runCapture(rootDir, cmd, args) {
   return {
     stdout: result.stdout?.toString() ?? "",
     stderr: result.stderr?.toString() ?? "",
-    status: result.status ?? 0,
+    status: result.status ?? 1,
   };
 }
 
 function ensureCleanGit(rootDir) {
   const status = runCapture(rootDir, "git", ["status", "--porcelain"]);
+  if (status.status !== 0) {
+    die(
+      "Unable to check Git status. Ensure this is a Git repository and git is available.",
+    );
+  }
   if (status.stdout.trim().length > 0) {
     die(
       "Working tree is not clean. Commit or stash changes first, or pass --allow-dirty.",
@@ -663,28 +689,72 @@ function isTracked(rootDir, path) {
 function runOrThrow(rootDir, cmd, args) {
   const result = spawnSync(cmd, args, {
     cwd: rootDir,
-    stdio: "inherit",
+    stdio: ["inherit", "pipe", "pipe"],
   });
+  // Preflight and Git hooks are short synchronous commands; buffer their
+  // output so they receive the same credential protection as build/upload.
+  if (result.stdout)
+    process.stdout.write(redactCommandOutput(result.stdout.toString(), args));
+  if (result.stderr)
+    process.stderr.write(redactCommandOutput(result.stderr.toString(), args));
   if (result.status !== 0) {
-    die(`Command failed: ${cmd} ${args.join(" ")}`);
+    die(redactCommandOutput(`Command failed: ${cmd} ${args.join(" ")}`, args));
   }
 }
 
 function runOrThrowAsync(rootDir, cmd, args) {
   return new Promise((resolve, reject) => {
+    const redact = (text) => redactCommandOutput(text, args);
+    // Transporter can echo its arguments itself. Protect child output as well
+    // as our failure message, including passwords split across output chunks.
     const proc = spawn(cmd, args, {
       cwd: rootDir,
-      stdio: "inherit",
+      stdio: ["inherit", "pipe", "pipe"],
     });
 
-    proc.on("error", reject);
+    forwardRedactedOutput(proc.stdout, process.stdout, redact);
+    forwardRedactedOutput(proc.stderr, process.stderr, redact);
+    proc.on("error", (error) => {
+      reject(new Error(redact(`Unable to start ${cmd}: ${error.message}`)));
+    });
     proc.on("close", (code) => {
       if (code !== 0) {
-        reject(new Error(`Command failed: ${cmd} ${args.join(" ")}`));
+        reject(new Error(redact(`Command failed: ${cmd} ${args.join(" ")}`)));
         return;
       }
       resolve();
     });
+  });
+}
+
+function redactCommandOutput(text, args) {
+  const secrets = new Set([process.env.ASC_APP_PASSWORD]);
+  for (let index = 0; index < args.length; index += 1) {
+    if (args[index] === "-p") secrets.add(args[index + 1]);
+  }
+  for (const secret of [...secrets]
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length)) {
+    text = text.split(secret).join("[REDACTED]");
+  }
+  return text;
+}
+
+function forwardRedactedOutput(source, destination, redact) {
+  // Decode UTF-8 across chunks and redact complete lines, not individual
+  // chunks: a password can straddle two writes from the child process.
+  let pending = "";
+  source.setEncoding("utf8");
+  source.on("data", (chunk) => {
+    pending += chunk;
+    const lastNewline = pending.lastIndexOf("\n");
+    if (lastNewline !== -1) {
+      destination.write(redact(pending.slice(0, lastNewline + 1)));
+      pending = pending.slice(lastNewline + 1);
+    }
+  });
+  source.on("end", () => {
+    if (pending) destination.write(redact(pending));
   });
 }
 

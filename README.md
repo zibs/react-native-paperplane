@@ -21,6 +21,8 @@ License: MIT
 - Supports app.config.ts, app.config.js, and app.json (text-only parsing)
 - Dry run mode and clean git enforcement
 - Deterministic output paths for build artifacts
+- Release prerequisites checked before build-number changes or commits
+- Upload passwords redacted from command failures and child-process output
 
 ## Requirements
 
@@ -67,6 +69,31 @@ Optional global-style bin for development:
 npm link
 paperplane --help
 ```
+
+Run the offline regression tests with `npm test` (Node 18+). The tests use fake
+Git/Xcode/Transporter commands and dummy credentials; they do not build an app or
+contact App Store Connect.
+
+## Xcode 27 and release safety
+
+Paperplane uses the selected Xcode's `iphoneos` SDK and the supported
+`app-store-connect` export method; it does not pin an iOS SDK version. Export
+options omit obsolete Bitcode keys. The app itself must satisfy the selected
+SDK's requirements, including UIKit scene support when building with iOS 27.
+For Expo apps, regenerate the native project and reconcile Pods after updating
+native dependencies; Paperplane does not run Expo prebuild or CocoaPods for you.
+
+Before changing either build number or making the release commit, a real run
+checks Xcode, the iPhoneOS SDK, and Git author/committer identities. Upload runs
+also check credentials and the local Transporter executable. `--skip-upload`
+does not require upload credentials or Transporter. `--dry-run` remains a
+non-mutating preview without build/upload prerequisite checks.
+
+Preflight cannot guarantee signing, export, or Apple's acceptance of an upload.
+Failures after the build-number commit still leave that commit in place; inspect
+the current build number before retrying. Password redaction protects Paperplane's
+console output, not operating-system process argument visibility or logs written
+directly by external tools.
 
 ## Usage
 
@@ -144,6 +171,7 @@ Install Transporter from the Mac App Store and sign in once.
 - Publish: `npm publish --access public`.
 
 Notes:
+
 - `--access public` is only required for scoped packages, but harmless for unscoped.
 
 ```text
@@ -173,10 +201,10 @@ Notes:
                                             #:@           *     @%
 
                     PPPPPP     AAA    PPPPPP   EEEEEEE  RRRRRR   PPPPPP   L          AAA    N    N   EEEEEEE
-                    P     P   A   A   P     P  E        R    R   P     P  L         A   A   NN   N   E      
-                    P     P  A     A  P     P  E        R    R   P     P  L        A     A  N N  N   E      
-                    PPPPPP   A     A  PPPPPP   EEEEEE   RRRRRR   PPPPPP   L        A     A  N  N N   EEEEEE 
-                    P        AAAAAAA  P        E        R  R     P        L        AAAAAAA  N   NN   E      
-                    P        A     A  P        E        R   R    P        L        A     A  N    N   E      
+                    P     P   A   A   P     P  E        R    R   P     P  L         A   A   NN   N   E
+                    P     P  A     A  P     P  E        R    R   P     P  L        A     A  N N  N   E
+                    PPPPPP   A     A  PPPPPP   EEEEEE   RRRRRR   PPPPPP   L        A     A  N  N N   EEEEEE
+                    P        AAAAAAA  P        E        R  R     P        L        AAAAAAA  N   NN   E
+                    P        A     A  P        E        R   R    P        L        A     A  N    N   E
                     P        A     A  P        EEEEEEE  R    R   P        LLLLLLL  A     A  N    N   EEEEEEE
 ```
