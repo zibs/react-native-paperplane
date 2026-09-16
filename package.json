@@ -1,6 +1,6 @@
 {
   "name": "react-native-paperplane",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Tiny CLI to bump iOS build numbers, archive/export, and upload to TestFlight.",
   "bin": {
     "paperplane": "src/cli.js"
@@ -32,6 +32,14 @@
     "ipa",
     "cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zibs/react-native-paperplane.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zibs/react-native-paperplane/issues"
+  },
+  "homepage": "https://github.com/zibs/react-native-paperplane#readme",
   "license": "MIT",
   "engines": {
     "node": ">=18"
